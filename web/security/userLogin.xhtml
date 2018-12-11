@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:icecore="http://www.icefaces.org/icefaces/core"
+      xmlns:ace="http://www.icefaces.org/icefaces/components">
+    <h:head>
+        <title>#{securityMsgs.title}</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <ace:panel header="#{securityMsgs.enterNameAndPassword}" style="width:400px;">
+                <h:panelGrid columns="3">
+                    #{securityMsgs.name}
+                    <h:inputText id="username" value="#{user.name}"/> 
+                    <h:message for="username"/>
+
+                    #{securityMsgs.password}
+                    <h:inputSecret id="password" value="#{user.password}"/>
+                    <h:message for="password"/>
+                </h:panelGrid>
+                <h:commandButton value="#{securityMsgs.login}" action="#{user.login}"/>
+            </ace:panel>
+        </h:form>
+    </h:body>
+</html>

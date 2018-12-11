@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+        <title>Welcome to BootsFaces</title>
+    </h:head>
+    <h:body>
+        <b:container fluid="true">
+            <b:panel collapsible="false">
+                <f:facet name="heading">
+                    <i class="fa fa-battery-three-quarters" style="padding-right:20px" />
+                    <h:outputText value="Battery charge left: 75% " />
+                    <b:badge style="margin-left:10px; background-color:#5cb85c" value="good"/>
+                </f:facet>
+                <h:outputText value="Welcome to BootsFaces!"/>
+            </b:panel>
+        </b:container>
+    </h:body>
+</html>
