@@ -18,7 +18,12 @@
     </context-param>
     <context-param>
         <param-name>BootsFaces_THEME</param-name>
-        <param-value>cerulean</param-value>
+        <param-value>#{userManager.bootswatchTheme}</param-value>
+    </context-param>
+    <!-- Activates the waitcursor and the double-click protection -->
+    <context-param>
+        <param-name>net.bootsfaces.blockUI</param-name>
+        <param-value>true</param-value>
     </context-param>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>

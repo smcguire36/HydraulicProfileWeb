@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <head><title>IGNORED</title></head>
+    <body>
+        <ui:composition>
+            <h:outputStylesheet library="css" name="masterHeader.css"/>
+            <b:navBar brandImg="#{resource['images:arcadis-logo.png']}" brandImgStyle="height:25px;" 
+                      brandHref="https://www.arcadis.com" brandTarget="_blank" 
+                      fluid="true" position="top" sticky="true" inverse="true">
+                <b:form rendered="#{userManager.loggedIn}">
+                    <b:selectOneMenu value="" ajax="true" process="@this" colSm="3" colMd="2" style="margin-top:6px;">
+                        <f:selectItem itemLabel="[#{msgs.selectAccount}]" itemValue="-1" />
+                        <f:selectItem itemLabel="Account 1" itemValue="1" />
+                        <f:selectItem itemLabel="Account 2" itemValue="2" />
+                    </b:selectOneMenu>
+                </b:form>
+                <b:navbarLinks rendered="#{userManager.loggedIn}">
+
+                    <b:dropMenu value="#{msgs.adminMenu}" iconAwesome="gear">
+
+                    </b:dropMenu>
+                </b:navbarLinks>
+                <b:form>
+                    <b:navbarLinks pull="right">
+                        <b:dropMenu value="#{securityMsgs.account}" rendered="#{userManager.loggedIn}">
+                            <b:navLink value="#{securityMsgs.profile}" href="#" icon-awesome="user"/>
+                            <b:navLink value="#{securityMsgs.changePassword}" href="#" icon-awesome="key"/>
+                            <b:navLink value="#{securityMsgs.selectTheme}" href="#" onclick="$('#themePicker').modal()" icon-awesome="gear"/>
+                            <b:navLink/>
+                            <b:navCommandLink value="#{securityMsgs.logout}" action="#{userLogin.logout}" icon-awesome="sign-out"/>
+                        </b:dropMenu>
+                        <b:badge value="#{userManager.username}" rendered="#{userManager.loggedIn}"/>
+                        <b:navLink value="#{securityMsgs.login}" outcome="/security/userLogin" rendered="#{!userManager.loggedIn}"/>
+                    </b:navbarLinks>
+                </b:form>
+            </b:navBar>
+            <b:modal id="themePicker" title="#{msgs.themePicker}" closeOnEscape="false">
+                <b:form horizontal="true">
+                    <b:formGroup style="margin-left:0px; margin-right:0px;">
+                        <b:selectOneMenu value="#{userManager.bootswatchTheme}" required="true" 
+                                         label="#{securityMsgs.selectTheme}:" 
+                                         ajax="true" process="@this">
+                            <f:selectItem itemLabel="Cerulean" itemValue="cerulean" />
+                            <f:selectItem itemLabel="Cosmo" itemValue="cosmo" />
+                            <f:selectItem itemLabel="Cyborg" itemValue="cyborg" />
+                            <f:selectItem itemLabel="Darkly" itemValue="darkly" />
+                            <f:selectItem itemLabel="Default" itemValue="default" />
+                            <f:selectItem itemLabel="Flatly" itemValue="flatly" />
+                            <f:selectItem itemLabel="Journal" itemValue="journal" />
+                            <f:selectItem itemLabel="Lumen" itemValue="lumen" />
+                            <f:selectItem itemLabel="Paper" itemValue="paper" />
+                            <f:selectItem itemLabel="Patternfly" itemValue="patternfly" />
+                            <f:selectItem itemLabel="Readable" itemValue="readable" />
+                            <f:selectItem itemLabel="Sandstone" itemValue="sandstone" />
+                            <f:selectItem itemLabel="Simplex" itemValue="simplex" />
+                            <f:selectItem itemLabel="Slate" itemValue="slate" />
+                            <f:selectItem itemLabel="Spacelab" itemValue="spacelab" />
+                            <f:selectItem itemLabel="Superhero" itemValue="superhero" />
+                            <f:selectItem itemLabel="United" itemValue="united" />
+                            <f:selectItem itemLabel="Yeti" itemValue="yeti" />
+                        </b:selectOneMenu>
+                        <b:message for="@previous" colMd="2" />
+                    </b:formGroup>
+                    <h:outputLabel value="#{securityMsgs.themeDescription}"/>
+                </b:form>
+                <f:facet name="footer">
+                    <b:button value="Close" dismiss="modal" />
+                </f:facet>
+            </b:modal>
+        </ui:composition>
+    </body>
+</html>

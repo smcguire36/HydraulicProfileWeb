@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <title><ui:insert name="windowTitle"/></title>
+        <!--        <h:outputStylesheet library="css" name="styles.css"/>-->
+    </h:head>
+
+    <h:body>   
+        <b:container fluid="true">
+            <ui:insert name="heading">
+                <ui:include src="/masterHeader.xhtml"/>
+            </ui:insert>  
+
+            <div style="margin-top:50px;">
+                <ui:insert name="content"/>
+            </div>
+            
+            <ui:insert name="footer">
+                <ui:include src="/masterFooter.xhtml"/>
+            </ui:insert>
+        </b:container>
+        <ui:debug/>
+    </h:body>
+</html>

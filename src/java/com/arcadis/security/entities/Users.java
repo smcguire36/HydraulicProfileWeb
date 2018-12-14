@@ -9,29 +9,35 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.id.GUIDGenerator;
 
 /**
  *
- * @author mcguire
+ * @author Stewart E. McGuire
  */
 @Entity
 public class Users implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(generator="GUID")
     @GenericGenerator(name="GUID", strategy="org.hibernate.id.GUIDGenerator")
-    @Column(name="userId", updatable=false, nullable=false)
+    @GeneratedValue(generator="GUID")
+    @Column(name="userId", columnDefinition="uniqueidentifier", updatable=false, nullable=false)
     private String userId;
+    @Column(length=50)
     private String firstName;
+    @Column(length=50)
     private String lastName;
+    @Column(length=100)
     private String emailAddress;
+    @Column(length=50)
     private String username;
+    @Column(length=50)    
     private String password;
+    @Column(length=50)
+    private String bootswatchTheme;
 
     public String getUserId() {
         return userId;
@@ -79,6 +85,14 @@ public class Users implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getBootswatchTheme() {
+        return bootswatchTheme;
+    }
+
+    public void setBootswatchTheme(String bootswatchTheme) {
+        this.bootswatchTheme = bootswatchTheme;
     }
 
     public Users() {

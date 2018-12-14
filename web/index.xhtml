@@ -1,16 +1,46 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        Hello from Facelets
-        <br />
-        <h:link outcome="welcomePrimefaces" value="PrimeFaces welcome page" />
-        <br />
-        <h:link outcome="welcomeBootsFaces" value="BootsFaces welcome page" />
-    </h:body>
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <head><title>IGNORED</title></head>
+    <body>
+        <ui:composition template="/templates/masterLayout.xhtml">
+            <ui:define name="windowTitle">
+                #{msgs.appTitle}
+            </ui:define> 
+            <ui:define name="content">
+                    <b:panel colMd="4" offsetMd="4" collapsible="false" look="primary">
+                        <f:facet name="heading">
+                            <h:outputFormat value="#{msgs.welcomeTitle}">
+                                <f:param value="#{msgs.appTitle}"/>
+                            </h:outputFormat>
+                        </f:facet>
+                        <b:form horizontal="true">
+                            <b:row>
+                                <b:column colMd="12" style="text-align: center;">
+                                    <h:outputFormat value="#{msgs.welcome}" escape="false" rendered="#{userManager.loggedIn}">
+                                        <f:param value="#{userManager.fullname}" /> 
+                                    </h:outputFormat>                        
+                                </b:column>
+                            </b:row>
+                            <b:row rendered="#{userManager.loggedIn}">
+                                <b:column offsetMd="4" colMd="8">
+                                    <b:button outcome="welcomePrimefaces" value="PrimeFaces welcome page" />
+                                </b:column>
+                            </b:row>
+                            <b:row rendered="#{userManager.loggedIn}">
+                                <b:column offsetMd="4" colMd="8">
+                                    <b:button outcome="welcomeBootsFaces" value="BootsFaces welcome page" />
+                                </b:column>
+                            </b:row>
+                        </b:form>
+                    </b:panel>
+            </ui:define>
+        </ui:composition>
+    </body>
 </html>
+
 

@@ -1,28 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core" 
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:icecore="http://www.icefaces.org/icefaces/core"
-      xmlns:ace="http://www.icefaces.org/icefaces/components">
+      xmlns:b="http://bootsfaces.net/ui">
     <h:head>
         <title>#{securityMsgs.title}</title>
+        <style>
+            .backgroundImage {
+                background:transparent url("#{resource['images:NEORSD-Southerly.jpg']}") no-repeat center center /cover;
+                height: 100vh;
+            }
+        </style>
     </h:head>
     <h:body>
-        <h:form>
-            <ace:panel header="#{securityMsgs.enterNameAndPassword}" style="width:400px;">
-                <h:panelGrid columns="3">
-                    #{securityMsgs.name}
-                    <h:inputText id="username" value="#{user.name}"/> 
-                    <h:message for="username"/>
+        <b:container fluid="true" class="backgroundImage">
+            <b:panel colMd="12" style="background:transparent;text-align:center; border:0px;color:white;">
+                <h:outputLabel value="#{msgs.appTitle}" style=" font-size:48px;"/>
+            </b:panel>
+            <b:panel title="#{securityMsgs.enterNameAndPassword}" colMd="4" offsetMd="4" collapsible="false" look="primary" icon-awesome="user" icon-align="left">
+                <b:form horizontal="true">
+                    <b:inputText placeholder="#{securityMsgs.name}" required="true" label="#{securityMsgs.name}" colMd="9" labelColMd="3" value="#{userLogin.username}">
+                        <f:facet name="prepend"> 
+                            <b:icon name="user" />
+                        </f:facet>  
+                    </b:inputText>
 
-                    #{securityMsgs.password}
-                    <h:inputSecret id="password" value="#{user.password}"/>
-                    <h:message for="password"/>
-                </h:panelGrid>
-                <h:commandButton value="#{securityMsgs.login}" action="#{user.login}"/>
-            </ace:panel>
-        </h:form>
+                    <b:inputSecret label="#{securityMsgs.password}" colMd="9" labelColMd="3" value="#{userLogin.password}">
+                        <f:facet name="prepend">
+                            <b:iconAwesome name="key" />
+                        </f:facet>
+                    </b:inputSecret>
+
+                    <b:formGroup>
+                        <b:commandButton icon-awesome="sign-in" value="#{securityMsgs.login}" action="#{userLogin.login}" look="primary" offsetMd="3" colMd="3" update="messages growl"/>
+                        <b:button icon-awesome="times" value="#{securityMsgs.cancel}" outcome="/index" look="default" colMd="3"/>
+                    </b:formGroup>
+                    <h:messages id="messages" style="color:red;margin:8px;" />
+                    <b:growl id="growl"/>
+                </b:form>
+            </b:panel>
+        </b:container>
     </h:body>
 </html>
