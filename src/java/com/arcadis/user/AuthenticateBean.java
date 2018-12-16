@@ -1,12 +1,17 @@
-package com.arcadis.security;
+package com.arcadis.user;
 
-import com.arcadis.security.entities.Users;
+import com.arcadis.dao.CustomerDao;
+import com.arcadis.dao.DaoService;
+import com.arcadis.dao.UserDao;
+import com.arcadis.entities.Users;
+import com.arcadis.profile.UserManager;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.Resource;
+import javax.enterprise.inject.spi.CDI;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -23,27 +28,21 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
-@Named("userLogin")
+@Named("authenticate")
 @ViewScoped
-public class UserLoginBean implements Serializable {
+public class AuthenticateBean implements Serializable {
 
     private String username;
     private String password;
 
-    @PersistenceUnit(unitName = "HydraulicProfileWebPU")
-    private EntityManagerFactory emf;
-
     @Inject
     private UserManager userMgr;
 
-    @Resource
-    private UserTransaction utx;
-    
-    public UserLoginBean() {
+    public AuthenticateBean() {
     }
 
     public String getUsername() {
-        if (username == "") {
+        if ("".equals(username)) {
             return userMgr.getUsername();
         }
         return username;
@@ -81,41 +80,44 @@ public class UserLoginBean implements Serializable {
 
     public String logout() {
         userMgr.setLoggedIn(false);
-        //return "/security/userLogin";
+        userMgr.setAdministrator(false);
+        userMgr.setBootswatchTheme("spacelab");
+        userMgr.setFullname("");
         return null;
     }
 
     public void doLogin() throws NotSupportedException, SystemException,
             RollbackException, HeuristicMixedException, HeuristicRollbackException {
-        EntityManager em = emf.createEntityManager();
-        try {
-            utx.begin();
-            em.joinTransaction();
-            boolean committed = false;
-            try {
-                Query query = em.createQuery("SELECT u FROM Users u WHERE u.username = :username")
-                        .setParameter("username", username);
-                @SuppressWarnings("unchecked")
-                List<Users> result = query.getResultList();
+        DaoService service = CDI.current().select(DaoService.class).get();
+        UserDao userDao = CDI.current().select(UserDao.class).get();
+        userDao.setDaoService(service);
 
-                if (result.size() == 1) {
-                    Users u = result.get(0);
-                    if (u.getPassword().equals(password)) {
+        try {
+            service.BeginTransaction();
+            try {
+
+                Users user = userDao.findByName(username);
+                if (user != null) {
+                    if (user.getPassword().equals(password)) {
                         userMgr.setLoggedIn(true);
+                        userMgr.setUserId(user.getUserId());
                         userMgr.setUsername(username);
-                        userMgr.setFullname(u.getFirstName() + " " + u.getLastName());
-                        userMgr.setBootswatchTheme(u.getBootswatchTheme());
+                        userMgr.setFullname(user.getFirstName() + " " + user.getLastName());
+                        userMgr.setBootswatchTheme(user.getBootswatchTheme());
+                        userMgr.setAdministrator(user.isAdministrator());
                     }
                 }
-                utx.commit();
-                committed = true;
+
+                service.CommitTransaction();
             } finally {
-                if (!committed) {
-                    utx.rollback();
+                if (!service.isCommitted()) {
+                    service.RollbackTransaction();
                 }
             }
         } finally {
-            em.close();
+            service.closeEntityManager();
         }
+
     }
+
 }

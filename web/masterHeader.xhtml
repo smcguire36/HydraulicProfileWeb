@@ -13,38 +13,45 @@
                       brandHref="https://www.arcadis.com" brandTarget="_blank" 
                       fluid="true" position="top" sticky="true" inverse="true">
                 <b:form rendered="#{userManager.loggedIn}">
-                    <b:selectOneMenu value="" ajax="true" process="@this" colSm="3" colMd="2" style="margin-top:6px;">
-                        <f:selectItem itemLabel="[#{msgs.selectAccount}]" itemValue="-1" />
-                        <f:selectItem itemLabel="Account 1" itemValue="1" />
-                        <f:selectItem itemLabel="Account 2" itemValue="2" />
+                    <b:selectOneMenu value="#{customerBean.customerId}" ajax="true" process="@this" colSm="3" colMd="2" style="margin-top:6px;">
+                        <f:selectItem itemLabel="[#{msgs.selectCustomer}]" itemValue="-1" />
+                        <f:selectItems value="#{customerBean.customers}" var="c" itemValue="#{c.customerId}" itemLabel="#{c.customerName}" />
                     </b:selectOneMenu>
                 </b:form>
                 <b:navbarLinks rendered="#{userManager.loggedIn}">
-
+                    <b:navLink value="#{msgs.dashboard}" outcome="/index" iconAwesome="dashboard"/>
+                </b:navbarLinks>
+                <b:navbarLinks rendered="#{userManager.administrator}">
                     <b:dropMenu value="#{msgs.adminMenu}" iconAwesome="gear">
-
+                        <b:navLink value="#{msgs.adminMenuCustomers}" outcome="/customer/list" iconAwesome="industry"/>
+                        <b:navLink/>
+                        <b:navLink value="#{msgs.adminMenuUsers}" outcome="/user/list" iconAwesome="users"/>
+                        <b:navLink value="" outcome="" iconAwesome=""/>
+                        <b:navLink value="" outcome="" iconAwesome=""/>
+                        <b:navLink value="" outcome="" iconAwesome=""/>
+                        <b:navLink value="" outcome="" iconAwesome=""/>
                     </b:dropMenu>
                 </b:navbarLinks>
                 <b:form>
                     <b:navbarLinks pull="right">
-                        <b:dropMenu value="#{securityMsgs.account}" rendered="#{userManager.loggedIn}">
-                            <b:navLink value="#{securityMsgs.profile}" href="#" icon-awesome="user"/>
-                            <b:navLink value="#{securityMsgs.changePassword}" href="#" icon-awesome="key"/>
-                            <b:navLink value="#{securityMsgs.selectTheme}" href="#" onclick="$('#themePicker').modal()" icon-awesome="gear"/>
+                        <b:dropMenu value="#{profileMsgs.account}" rendered="#{userManager.loggedIn}">
+                            <b:navLink value="#{profileMsgs.profile}" outcome="/profile/viewProfile" iconAwesome="user"/>
+                            <b:navLink value="#{profileMsgs.changePassword}" outcome="/profile/changePassword" iconAwesome="key"/>
+                            <b:navLink value="#{profileMsgs.selectTheme}" href="#" onclick="$('#themePicker').modal()" iconAwesome="gear"/>
                             <b:navLink/>
-                            <b:navCommandLink value="#{securityMsgs.logout}" action="#{userLogin.logout}" icon-awesome="sign-out"/>
+                            <b:navCommandLink value="#{profileMsgs.logout}" action="#{authenticate.logout}" iconAwesome="sign-out"/>
                         </b:dropMenu>
                         <b:badge value="#{userManager.username}" rendered="#{userManager.loggedIn}"/>
-                        <b:navLink value="#{securityMsgs.login}" outcome="/security/userLogin" rendered="#{!userManager.loggedIn}"/>
+                        <b:navLink value="#{profileMsgs.login}" outcome="/user/login" iconAwesome="sign-in" rendered="#{!userManager.loggedIn}"/>
                     </b:navbarLinks>
                 </b:form>
             </b:navBar>
             <b:modal id="themePicker" title="#{msgs.themePicker}" closeOnEscape="false">
                 <b:form horizontal="true">
-                    <b:formGroup style="margin-left:0px; margin-right:0px;">
+                    <b:formGroup style="margin-left:0px; margin-right:0px;">                        
                         <b:selectOneMenu value="#{userManager.bootswatchTheme}" required="true" 
-                                         label="#{securityMsgs.selectTheme}:" 
-                                         ajax="true" process="@this">
+                                         label="#{profileMsgs.selectTheme}:" 
+                                         ajax="true" process="@this" onchange="saveTheme(event)">
                             <f:selectItem itemLabel="Cerulean" itemValue="cerulean" />
                             <f:selectItem itemLabel="Cosmo" itemValue="cosmo" />
                             <f:selectItem itemLabel="Cyborg" itemValue="cyborg" />
@@ -65,8 +72,9 @@
                             <f:selectItem itemLabel="Yeti" itemValue="yeti" />
                         </b:selectOneMenu>
                         <b:message for="@previous" colMd="2" />
+                        <b:remoteCommand name="saveTheme" id="remoteSaveTheme" actionListener="#{theme.saveTheme}"/>
                     </b:formGroup>
-                    <h:outputLabel value="#{securityMsgs.themeDescription}"/>
+                    <h:outputLabel value="#{profileMsgs.themeDescription}"/>
                 </b:form>
                 <f:facet name="footer">
                     <b:button value="Close" dismiss="modal" />

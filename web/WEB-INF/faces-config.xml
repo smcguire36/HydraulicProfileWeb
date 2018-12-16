@@ -5,8 +5,8 @@
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd">
     <application>
         <resource-bundle>
-            <base-name>com.arcadis.security.messages</base-name>
-            <var>securityMsgs</var>
+            <base-name>com.arcadis.profile.messages</base-name>
+            <var>profileMsgs</var>
         </resource-bundle>
         <resource-bundle>
             <base-name>com.arcadis.messages</base-name>

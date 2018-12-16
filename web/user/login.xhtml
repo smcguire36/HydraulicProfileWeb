@@ -5,10 +5,10 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:b="http://bootsfaces.net/ui">
     <h:head>
-        <title>#{securityMsgs.title}</title>
+        <title>#{profileMsgs.title}</title>
         <style>
             .backgroundImage {
-                background:transparent url("#{resource['images:NEORSD-Southerly.jpg']}") no-repeat center center /cover;
+                background:transparent url("#{resource['images:NEORSD-Southerly2.jpg']}") no-repeat center center /cover;
                 height: 100vh;
             }
         </style>
@@ -18,23 +18,23 @@
             <b:panel colMd="12" style="background:transparent;text-align:center; border:0px;color:white;">
                 <h:outputLabel value="#{msgs.appTitle}" style=" font-size:48px;"/>
             </b:panel>
-            <b:panel title="#{securityMsgs.enterNameAndPassword}" colMd="4" offsetMd="4" collapsible="false" look="primary" icon-awesome="user" icon-align="left">
+            <b:panel title="#{profileMsgs.enterNameAndPassword}" colMd="4" offsetMd="4" collapsible="false" look="primary" icon-awesome="user" icon-align="left">
                 <b:form horizontal="true">
-                    <b:inputText placeholder="#{securityMsgs.name}" required="true" label="#{securityMsgs.name}" colMd="9" labelColMd="3" value="#{userLogin.username}">
+                    <b:inputText placeholder="#{profileMsgs.name}" required="true" label="#{profileMsgs.name}" colMd="9" labelColMd="3" value="#{authenticate.username}">
                         <f:facet name="prepend"> 
                             <b:icon name="user" />
                         </f:facet>  
                     </b:inputText>
 
-                    <b:inputSecret label="#{securityMsgs.password}" colMd="9" labelColMd="3" value="#{userLogin.password}">
+                    <b:inputSecret label="#{profileMsgs.password}" colMd="9" labelColMd="3" value="#{authenticate.password}">
                         <f:facet name="prepend">
                             <b:iconAwesome name="key" />
                         </f:facet>
                     </b:inputSecret>
 
                     <b:formGroup>
-                        <b:commandButton icon-awesome="sign-in" value="#{securityMsgs.login}" action="#{userLogin.login}" look="primary" offsetMd="3" colMd="3" update="messages growl"/>
-                        <b:button icon-awesome="times" value="#{securityMsgs.cancel}" outcome="/index" look="default" colMd="3"/>
+                        <b:commandButton icon-awesome="sign-in" value="#{profileMsgs.login}" action="#{authenticate.login}" look="primary" offsetMd="3" colMd="3" update="messages growl"/>
+                        <b:button icon-awesome="times" value="#{profileMsgs.cancel}" outcome="/index" look="default" colMd="3"/>
                     </b:formGroup>
                     <h:messages id="messages" style="color:red;margin:8px;" />
                     <b:growl id="growl"/>

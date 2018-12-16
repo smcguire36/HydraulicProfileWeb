@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arcadis.security;
+package com.arcadis.profile;
 
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
@@ -16,16 +16,26 @@ import javax.inject.Named;
 @Named("userManager")
 @SessionScoped
 public class UserManager implements Serializable {
+    private String userId;
     private String username;
     private String fullname;
     private boolean loggedIn;
     private String bootswatchTheme;
+    private boolean administrator;
 
     public UserManager() {
         username = "";
         fullname = "";
         loggedIn = false;
         bootswatchTheme = "spacelab";
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
     
     public String getUsername() {
@@ -58,6 +68,14 @@ public class UserManager implements Serializable {
 
     public void setBootswatchTheme(String bootswatchTheme) {
         this.bootswatchTheme = bootswatchTheme;
+    }
+
+    public boolean isAdministrator() {
+        return administrator;
+    }
+
+    public void setAdministrator(boolean administrator) {
+        this.administrator = administrator;
     }
 
 }
