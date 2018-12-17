@@ -13,11 +13,26 @@ and open the template in the editor.
     <head><title>IGNORED</title></head>
     <body>
         <ui:composition template="/templates/masterLayout.xhtml">
-            <ui:define name="windowTitle">
-                #{msgs.appTitle}
-            </ui:define> 
+            <ui:define name="windowTitle">#{msgs.appTitle}</ui:define> 
             <ui:define name="content">
-                
+
+                <h:form>
+                    <b:dataTable value="#{customerListBean.customers}" var="cust" class="customerTable">
+                        <b:dataTableColumn value="#{cust.customerId}" width="30%">
+                            <f:facet name="header">#{msgs.customerIdColumn}</f:facet>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn value="#{cust.customerName}">
+                            <f:facet name="header">#{msgs.customerNameColumn}</f:facet>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn>
+                            <f:facet name="header">#{msgs.customerActionColumn}</f:facet>
+                            <b:button value="edit" icon="edit" outcome="/customer/edit">
+                                <f:param name="customerId" value="#{cust.customerId}"/>
+                            </b:button>
+                        </b:dataTableColumn>
+                    </b:dataTable>
+                </h:form>
+                <b:messages/>
             </ui:define>
         </ui:composition>
     </body>

@@ -1,32 +1,24 @@
 package com.arcadis.user;
 
-import com.arcadis.dao.CustomerDao;
 import com.arcadis.dao.DaoService;
 import com.arcadis.dao.UserDao;
 import com.arcadis.entities.Users;
 import com.arcadis.profile.UserManager;
 import java.io.Serializable;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.annotation.Resource;
 import javax.enterprise.inject.spi.CDI;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
-import javax.persistence.Query;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
 
 @Named("authenticate")
 @ViewScoped
@@ -83,7 +75,7 @@ public class AuthenticateBean implements Serializable {
         userMgr.setAdministrator(false);
         userMgr.setBootswatchTheme("spacelab");
         userMgr.setFullname("");
-        return null;
+        return "/index";
     }
 
     public void doLogin() throws NotSupportedException, SystemException,

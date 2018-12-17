@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core" 
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <title>#{profileMsgs.title}</title>
         <style>
@@ -20,7 +21,7 @@
             </b:panel>
             <b:panel title="#{profileMsgs.enterNameAndPassword}" colMd="4" offsetMd="4" collapsible="false" look="primary" icon-awesome="user" icon-align="left">
                 <b:form horizontal="true">
-                    <b:inputText placeholder="#{profileMsgs.name}" required="true" label="#{profileMsgs.name}" colMd="9" labelColMd="3" value="#{authenticate.username}">
+                    <b:inputText placeholder="#{profileMsgs.name}" required="true" label="#{profileMsgs.name}" colMd="9" labelColMd="3" value="#{authenticate.username}" pt:autofocus="true">
                         <f:facet name="prepend"> 
                             <b:icon name="user" />
                         </f:facet>  

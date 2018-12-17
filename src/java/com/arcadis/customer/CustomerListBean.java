@@ -10,26 +10,26 @@ import com.arcadis.dao.DaoService;
 import com.arcadis.entities.Customer;
 import com.arcadis.profile.UserManager;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.enterprise.inject.spi.CDI;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
 /**
  *
  * @author mcguire
  */
-@Named(value = "customerBean")
-@SessionScoped
-public class CustomerBean implements Serializable {
+@Named(value = "customerListBean")
+@ViewScoped
+public class CustomerListBean implements Serializable {
 
-    private String customerId;
     private List<Customer> customers;
 
     @Inject
@@ -38,26 +38,16 @@ public class CustomerBean implements Serializable {
     /**
      * Creates a new instance of CustomerBean
      */
-    public CustomerBean() {
+    public CustomerListBean() {
         customers = new ArrayList<Customer>();
     }
 
-    public String getCustomerId() {
-        return customerId;
+        @PostConstruct
+    public void InitializeBean() {
+        loadCustomerList();
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
-
-    public void clearCustomers() {
-        customers.clear();
-    }
-    
     public List<Customer> getCustomers() {
-        if (customers.isEmpty()) {
-            loadCustomerList();
-        }
         return customers;
     }
 
@@ -71,7 +61,7 @@ public class CustomerBean implements Serializable {
             service.BeginTransaction();
             try {
 
-                customers = customerDao.findByUser(userMgr.getUserId());
+                customers = customerDao.findAll();
 
                 service.CommitTransaction();
             } finally {
@@ -80,17 +70,12 @@ public class CustomerBean implements Serializable {
                 }
             }
         } catch (Exception ex) {
-            Logger.getLogger("com.arcadis").log(Level.SEVERE, "Available customers list load failed", ex);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Available customers list load failed: " + ex.getMessage(), ""));
+            Logger.getLogger("com.arcadis").log(Level.SEVERE, "Customer list load failed", ex);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Customer list load failed: " + ex.getMessage(), ""));
         } finally {
             service.closeEntityManager();
         }
 
-    }
-    
-    public String editCustomer() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Here!", ""));
-        return "";
     }
 
 }
