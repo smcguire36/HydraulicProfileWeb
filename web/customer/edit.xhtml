@@ -6,12 +6,80 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <head><title>IGNORED</title></head>
     <body>
-        <div>TODO write content: #{customerEditBean.customerId}</div>
+        <ui:composition template="/templates/masterLayout.xhtml">
+            <ui:define name="windowTitle">#{msgs.appTitle} - #{msgs.customerEditTitle}</ui:define> 
+            <ui:define name="content">
+                <b:form horizontal="true" id="editForm">
+                    <b:container fluid="false">
+                        <b:panel collapsible="false">
+                            <f:facet name="heading">
+                                <h:outputLabel value="#{msgs.customerEditTitle}"/>
+                            </f:facet>
+                            <b:row>
+                                <b:inputText label="#{msgs.customerId}:" value="#{customerEditBean.customerId}" colMd="6" labelColMd="3" readonly="true"/>
+                            </b:row>
+                            <b:row>
+                                <b:inputText label="#{msgs.customerName}:" value="#{customerEditBean.customerName}" colMd="6" labelColMd="3"/>
+                            </b:row>
+                            <b:row>
+                                <b:dataTable value="#{customerEditBean.customerUsers}" var="user" id="userList" offsetMd="3"
+                                             caption="These are the users with rights to this customer's data">
+                                    <b:dataTableColumn>
+                                        <f:facet name="header">
+                                            <b:button value="#{msgs.buttonAdd}" icon="plus" href="#" onclick="$('#addUser').modal()" size="xs">
+                                                <f:param name="customerId" value="#{customerEditBean.customerId}"/>
+                                            </b:button>
+                                        </f:facet>
+                                        <b:commandButton value="#{msgs.buttonRemove}" icon="minus" action="#{customerEditBean.removeUser}" ajax="true" update="userList,msg" size="xs">
+                                            <f:param name="userId" value="#{user.userId}"/>
+                                        </b:commandButton>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn value="#{user.firstName} #{user.lastName}">
+                                        <f:facet name="header">#{msgs.userFullName}</f:facet>
+                                    </b:dataTableColumn>
+                                    <b:dataTableColumn value="#{user.emailAddress}">
+                                        <f:facet name="header">#{msgs.userEmail}</f:facet>
+                                    </b:dataTableColumn>
+                                </b:dataTable>
+                            </b:row>
+                            <b:row>
+                                <b:commandButton value="#{msgs.buttonSave}" action="#{customerEditBean.saveCustomer}" offsetMd="3" colMd="2"/>
+                                <b:button value="#{msgs.buttonCancel}" outcome="/customer/list?faces-redirect=true" onclick="if (!confirm('Are you sure?'))
+                                            return false;" colMd="2"/>
+                            </b:row>
+                        </b:panel>
+                    </b:container>
+                </b:form>
+                <b:modal id="addUser" title="#{msgs.customerAddUserTitle}" closeOnEscape="false">
+                    <b:form horizontal="true">
+                        <b:formGroup style="margin-left:0px; margin-right:0px;">
+                            <b:selectOneMenu id="addUserId" value="#{customerEditBean.addUserId}" required="true" label="#{msgs.selectUser}:">
+                                <f:selectItems value="#{customerEditBean.nonCustomerUsers}" var="u" itemValue="#{u.userId}" itemLabel="#{u.fullname}"/>
+                            </b:selectOneMenu>
+                            <b:message id="addUserMsg" for="@previous"/>
+                        </b:formGroup>
+                        <b:row>
+                            <b:column>
+                                <b:commandButton value="#{msgs.buttonAdd}" action="#{customerEditBean.addUser}"
+                                                 ajax="true" process="@form" update="editForm:userList" look="primary" colMd="3" onsuccess="hideModal_AddUser();"/>
+                                <b:button value="#{msgs.buttonCancel}" dismiss="modal" colMd="3"/>
+                            </b:column>
+                        </b:row>
+                    </b:form>
+                </b:modal>
+                <b:messages id="msg"/>
+                <h:outputScript>
+                    function hideModal_AddUser() {
+                        $('#addUser').modal('hide');
+                    }
+                </h:outputScript>
+            </ui:define>
+        </ui:composition>
     </body>
 </html>

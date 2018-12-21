@@ -19,6 +19,10 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
+/**
+ *
+ * @author mcguire
+ */
 @Named("theme")
 @RequestScoped
 public class BootswatchThemeBean implements Serializable {
@@ -26,9 +30,15 @@ public class BootswatchThemeBean implements Serializable {
     @Inject
     private UserManager userMgr;
 
+    /**
+     *
+     */
     public BootswatchThemeBean() {
     }
 
+    /**
+     *
+     */
     public void saveTheme() {
         try {
             doSaveTheme();

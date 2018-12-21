@@ -1,5 +1,6 @@
 package com.arcadis.user;
 
+import com.arcadis.customer.CustomerBean;
 import com.arcadis.dao.DaoService;
 import com.arcadis.dao.UserDao;
 import com.arcadis.entities.Users;
@@ -29,6 +30,8 @@ public class AuthenticateBean implements Serializable {
 
     @Inject
     private UserManager userMgr;
+    @Inject 
+    private CustomerBean customerMgr;
 
     public AuthenticateBean() {
     }
@@ -75,6 +78,7 @@ public class AuthenticateBean implements Serializable {
         userMgr.setAdministrator(false);
         userMgr.setBootswatchTheme("spacelab");
         userMgr.setFullname("");
+        customerMgr.clearCustomers();
         return "/index";
     }
 

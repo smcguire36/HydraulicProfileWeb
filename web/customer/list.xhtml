@@ -14,15 +14,17 @@ and open the template in the editor.
     <body>
         <ui:composition template="/templates/masterLayout.xhtml">
             <ui:define name="windowTitle">#{msgs.appTitle}</ui:define> 
+            <ui:define name="metaData">
+                <f:event type="preRenderView" listener="#{userManager.isInRole('Administrator')}"></f:event>
+            </ui:define>
             <ui:define name="content">
-
                 <h:form>
                     <b:dataTable value="#{customerListBean.customers}" var="cust" class="customerTable">
                         <b:dataTableColumn value="#{cust.customerId}" width="30%">
-                            <f:facet name="header">#{msgs.customerIdColumn}</f:facet>
+                            <f:facet name="header">#{msgs.customerId}</f:facet>
                         </b:dataTableColumn>
                         <b:dataTableColumn value="#{cust.customerName}">
-                            <f:facet name="header">#{msgs.customerNameColumn}</f:facet>
+                            <f:facet name="header">#{msgs.customerName}</f:facet>
                         </b:dataTableColumn>
                         <b:dataTableColumn>
                             <f:facet name="header">#{msgs.customerActionColumn}</f:facet>

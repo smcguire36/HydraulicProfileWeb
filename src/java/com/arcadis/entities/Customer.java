@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -59,7 +60,7 @@ public class Customer implements Serializable {
     }, inverseJoinColumns = {
         @JoinColumn(name = "userId", referencedColumnName = "userId", nullable = false)
     })
-    @ManyToMany(cascade={ CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(cascade={ CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
     @OrderBy("lastName ASC")
     private Set<Users> users;
 

@@ -78,7 +78,7 @@ public class Users implements Serializable {
     @NotNull
     @Column(name = "isAdministrator", nullable = false)
     private boolean administrator;
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     @OrderBy("customerName ASC")
     private Set<Customer> customers;
 
@@ -201,4 +201,8 @@ public class Users implements Serializable {
         return "com.arcadis.entities.Users[ userId=" + userId + " ]";
     }
 
+    public String getFullname() {
+        return firstName + " " + lastName;
+    }
+    
 }

@@ -8,7 +8,13 @@
 
     <h:head>
         <title><ui:insert name="windowTitle"/></title>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{userManager.verifyLogin()}"></f:event>
+            <ui:insert name="metaData"/>
+        </f:metadata>        
+
         <!--        <h:outputStylesheet library="css" name="styles.css"/>-->
+
     </h:head>
 
     <h:body>   
@@ -20,7 +26,7 @@
             <div style="margin-top:75px;">
                 <ui:insert name="content"/>
             </div>
-            
+
             <ui:insert name="footer">
                 <ui:include src="/masterFooter.xhtml"/>
             </ui:insert>
